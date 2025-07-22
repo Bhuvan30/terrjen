@@ -1,14 +1,12 @@
-# main.tf
-
 provider "aws" {
   region = "eu-north-1"
 }
 
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = "jenkins-pipeline-demo-s3-${random_id.rand.hex}"
-  force_destroy = true
-}
+resource "aws_instance" "example" {
+  ami           = "ami-0c944f0aa6a8ef089"  # Example AMI ID for eu-north-1 (update this to a valid AMI for your region)
+  instance_type = "t2.micro"
 
-resource "random_id" "rand" {
-  byte_length = 4
+  tags = {
+    Name = "Jenkins-Terraform-EC2"
+  }
 }
