@@ -1,8 +1,8 @@
 pipeline {
     agent any
       environment {
-        AWS_REGION = 'eu-north-1'
-        AWS_DEFAULT_REGION = 'eu-north-1'
+        AWS_REGION = 'us-east-1'
+        AWS_DEFAULT_REGION = 'us-east-1'
       }
 
     stages {
