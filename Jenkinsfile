@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        TF_DIR = 'infra'
+        AWS_ACCESS_KEY_ID     = credentials('aws-credentials').username
+        AWS_SECRET_ACCESS_KEY = credentials('aws-credentials').password
     }
 
     stages {
@@ -14,41 +15,29 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'aws-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    dir("${TF_DIR}") {
-                        sh 'terraform init'
-                    }
-                }
+                sh 'terraform init'
             }
         }
 
         stage('Terraform Plan') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'aws-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    dir("${TF_DIR}") {
-                        sh 'terraform plan -out=tfplan'
-                    }
-                }
+                sh 'terraform plan -out=tfplan'
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'aws-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    dir("${TF_DIR}") {
-                        sh 'terraform apply -auto-approve tfplan'
-                    }
-                }
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
     }
 
     post {
         failure {
-            echo "❌ Build failed!"
+            echo 'Terraform deployment failed!'
         }
         success {
-            echo "✅ Infrastructure deployed successfully!"
+            echo 'Terraform deployment succeeded!'
         }
     }
 }
