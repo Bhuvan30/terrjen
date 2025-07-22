@@ -1,5 +1,5 @@
 environment {
-    AWS_DEFAULT_REGION = 'eu-east-1'
+    AWS_DEFAULT_REGION = 'eu-north-1'
     // Use the 'withCredentials' Jenkins pipeline step to inject creds
 }
 
