@@ -30,8 +30,8 @@ resource "aws_security_group" "allow_http_ssh" {
 
 resource "aws_instance" "web" {
   count         = 2
-  ami           = "ami-013ed6046abe69f0f"  # Change to your preferred AMI & region
-  instance_type = "t2.micro"
+  ami           = "ami-013ed6046abe69f0f" # Change to your preferred AMI & region
+  instance_type = "t3.micro"
   security_groups = [aws_security_group.allow_http_ssh.name]
 
   user_data = <<-EOF
