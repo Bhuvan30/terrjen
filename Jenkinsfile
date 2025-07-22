@@ -24,7 +24,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                input message: 'Approve apply?'
+                // Removed manual approval input to automate apply
                 withCredentials([usernamePassword(credentialsId: 'aws-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh 'terraform apply -auto-approve tfplan'
                 }
